@@ -44,7 +44,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
   const foundUser = await User.findOne({ email });
 
-  if(foundUser){
+  if(foundUser) {
 
       const matchPwd = await foundUser.matchPassword(inputPassword)
 

@@ -14,7 +14,7 @@ const checkLogin = asyncHandler ( async (req, res, next) => {
             const decodedInfo = jwt.verify(tokenJwt, process.env.JSON_WEB_SECRET)
             console.log(decodedInfo.data.userId)
         
-            next();
+            next(); // go to next middleware
 
             // after a next() is not possible to set headers
 

@@ -32,7 +32,7 @@ app.use(cookieParser());
 
 /* ********************************** ROUTING ********************************** */
 app.use("/api/users", userRoutes)
-app.use("/api/films", filmRoutes)
+app.use("/api/film", filmRoutes)
 
 
 //app.get('/', (req, res) => { res.send('hola!') })

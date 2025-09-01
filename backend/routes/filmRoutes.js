@@ -11,4 +11,7 @@ router.route("/all").get(checkLogin, example)
 
 router.route("/movielist").get( example )
 
+//example routing
+router.route("/example").get( example )
+
 export default router;
