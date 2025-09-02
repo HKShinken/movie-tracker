@@ -12,10 +12,9 @@ const checkLogin = asyncHandler ( async (req, res, next) => {
 
         try{
             const decodedInfo = jwt.verify(tokenJwt, process.env.JSON_WEB_SECRET)
-            console.log(decodedInfo.data.userId)
-        
+            //console.log("stampo jwt decoded: ", tokenJwt, decodedInfo.data._id)
+            
             next(); // go to next middleware
-
             // after a next() is not possible to set headers
 
         } catch(err) {

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+//the initial state is reset each time a page is refreshed
 const initialState = {
     userInfo: localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : null,
 }
@@ -15,6 +16,7 @@ export const authSlice = createSlice({
     setUsrCredentials: (state, action) => {
       // in this case "state"refers to "auth" state  defined in the store
       state.userInfo = action.payload
+      localStorage.setItem("userInfo", JSON.stringify(action.payload))
     },
 
     logout: (state, action) => {

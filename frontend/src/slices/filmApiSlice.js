@@ -6,18 +6,15 @@ const allApi = apiSlice.injectEndpoints({
 
         getFilms: build.query({
             
-            query: ( data ) => ({
-                url: `/api/films/all`,
+            query: () => ({
+                url: `/api/film/homepage/`,
                 method: 'GET',
             }),
 
-
-
-            
         }),
-        overrideExisting: false,
+        //overrideExisting: false,
     })
 })
 
-export const { usGetFilmsQuery } = allApi
+export const { useGetFilmsQuery } = allApi
 

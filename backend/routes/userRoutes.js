@@ -4,8 +4,6 @@ import {
          registerUser,
          loginUser,
  } from "../controllers/userController.js"
- 
-import { example } from "../controllers/filmController.js";
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
 

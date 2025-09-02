@@ -1,17 +1,17 @@
 import express from "express";
 
-import { example } from "../controllers/filmController.js";
+import { getHomepageFilms } from "../controllers/filmController.js";
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
 
 
 const router = express.Router();
-router.route("/all").get(checkLogin, example)
+router.route("/homepage").get(checkLogin, getHomepageFilms)
 
 
-router.route("/movielist").get( example )
+//router.route("/homepage/:title").get( getHomepageFilms )
 
 //example routing
-router.route("/example").get( example )
+//router.route("/example").get( example )
 
 export default router;
