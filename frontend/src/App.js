@@ -17,7 +17,7 @@ const App = () => {
   return (
     <>
     <Provider store={store}> {/* react app is aware of redux store */}
-       {/* <Header /> */ }
+        <Header /> 
           <main className="py-3">
             <Container>
                <Outlet />

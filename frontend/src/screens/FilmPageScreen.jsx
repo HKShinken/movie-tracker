@@ -1,7 +1,10 @@
 import { logout } from '../slices/authSlice.js'
 import { useGetFilmsQuery } from '../slices/filmApiSlice.js'
 import { useDispatch } from 'react-redux';
-import { Button, Card, ListGroup, Spinner } from 'react-bootstrap';
+import FilmCard from '../components/FilmCard';
+import { Button, Col, 
+         Spinner, 
+         Container, Row } from 'react-bootstrap';
 
 const FilmPageScreen = () => {
 
@@ -15,33 +18,23 @@ const FilmPageScreen = () => {
   }
 
   return (
-    <>
 
-      <h1>
-        Login successfully!!!
-      </h1>
-      {isError && <p>Error: {error?.data?.message || error.error}</p>}
-      { isLoading || !filmData?.Search ? <Spinner /> :
-       filmData.Search.map( (f) =>  (
+      <Container fluid>
+        { isLoading || !filmData?.Search ? <> <h2>loading ... </h2><Spinner /> </> :
+          <>
+            <Row>
+                    { filmData.Search.map( (f) =>  (   
+                                                      <Col xs={12} md={4}>
+                                                          <FilmCard  fcard = {f} />
+                                                      </Col>
+                                                  ) )}     
+            </Row>
 
-                                            <Card key={f.imdbID} style={{ width: '18rem' }}>
-                                              <Card.Img variant="top" src={f.Poster} />
-                                              <Card.Body>
-                                                <Card.Title>{f.Title}</Card.Title>
-                                                <Card.Text></Card.Text>
-                                                <ListGroup variant="flush">
-                                                  <ListGroup.Item>Year: {f.Year}</ListGroup.Item>
-                                                  <ListGroup.Item>Type: {f.Type}</ListGroup.Item>
-                                                </ListGroup>
-                                                
-                                              </Card.Body>
-                                            </Card>
-                                        )
-      )}
+          <Button onClick={logoutHandler}> LOGOUT </Button>
+          </>
+        }
+      </Container>
 
-      <Button onClick={logoutHandler}> LOGOUT </Button>
-
-    </>
   );
 }
 
