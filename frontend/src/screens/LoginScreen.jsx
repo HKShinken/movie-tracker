@@ -39,7 +39,7 @@ const LoginScreen = () => {
             //sets the lgin credenntials to current session
             dispatch(setUsrCredentials(res))
             if(!isUpdating)
-              navigate("/homepage")
+              navigate("/filmpage")
 
       } catch (err) {
         console.log(err?.data?.message || err.error);

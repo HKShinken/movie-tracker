@@ -6,7 +6,7 @@ import { checkLogin } from "../middlewares/userMiddleware.js";
 
 
 const router = express.Router();
-router.route("/homepage").get(checkLogin, getHomepageFilms)
+router.route("/filmpage/:keyword").get(checkLogin, getHomepageFilms)
 
 
 //router.route("/homepage/:title").get( getHomepageFilms )

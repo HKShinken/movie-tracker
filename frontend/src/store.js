@@ -14,7 +14,8 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer, //this for api
 
     counter: testReducer, //counter is the state associated to all reducers contained in test reducer
-    auth: authReducer
+    auth: authReducer,
+    
     
   },
 

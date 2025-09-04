@@ -8,6 +8,7 @@ import  LoginScreen  from "./screens/LoginScreen"
 import  HomePageScreen  from "./screens/HomePageScreen"
 import  FilmPageScreen  from "./screens/FilmPageScreen"
 import  PrivateRoute  from "./components/PrivateRoute"
+import SearchBox from './components/SearchBox';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,9 +23,11 @@ root.render(
           <Route index={true} path="/" element={<HomePageScreen />} />
           <Route path="/login" element={<LoginScreen />} />
 
+
           { /* private routes, require login*/ }
           <Route path="" element={<PrivateRoute />}>
-              <Route path="/homepage" element={<FilmPageScreen />} />
+              <Route path="/filmpage" element={<FilmPageScreen />} />
+              <Route path="/search/:keyword" element={<FilmPageScreen />} />
           </Route>
 
         </Route>

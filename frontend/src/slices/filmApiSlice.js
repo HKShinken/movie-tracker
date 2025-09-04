@@ -5,13 +5,12 @@ const allApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
 
         getFilms: build.query({
-            
-            query: () => ({
-                url: `/api/film/homepage/`,
+            query: (data) => ({
+                url: `/api/film/filmpage/` + data.keyword,
                 method: 'GET',
             }),
-
         }),
+
         //overrideExisting: false,
     })
 })
