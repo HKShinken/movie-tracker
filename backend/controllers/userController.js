@@ -1,6 +1,7 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import generateJwt from '../utils/generateJwt.js'
 import User from '../model/User.js'
+import Watchlist from '../model/Watchlist.js'
 
 // @desc register user & get token
 // @route POST /api/users/register
@@ -38,7 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 
-const loginUser = asyncHandler(async (req, res, next) => {
+const loginUser = asyncHandler(async (req, res) => {
 
   const { email, password:inputPassword } = req.body;
 
@@ -70,4 +71,43 @@ const loginUser = asyncHandler(async (req, res, next) => {
   
 });
 
-export { registerUser, loginUser };
+
+const addFilmToWatchlist = asyncHandler(async (req, res) => {
+
+  const imdbId = req.body.imdbId;
+  const userId = req.user._id.toString() //comes from checkLogin middleware
+
+  //console.log("Printing post data: ", { imdbId, userId })
+
+  const rec = await Watchlist.create( { user: userId, imdbId } );
+
+  if(!rec) {
+    res.status(400)
+    throw new Error("Error adding film to watchlist")
+  }
+
+  res.status(201).json("Film added to watchlist")
+
+});
+
+
+const getUserWatchList = asyncHandler( async(req, res) => {
+
+   const userId = req.user._id;
+
+   //distinct method returns array of distinct values without the keys, it can be used on only one field
+   const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
+
+   if(!wlist) {
+    res.status(400)
+    throw new Error("Error retrieving watchlist")
+   }
+
+   res.status(201).json(wlist)
+
+})
+
+export { registerUser, 
+        loginUser, 
+        addFilmToWatchlist, 
+        getUserWatchList};

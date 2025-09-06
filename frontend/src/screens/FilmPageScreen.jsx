@@ -1,6 +1,7 @@
 import { logout } from '../slices/authSlice.js'
 import { useGetFilmsQuery } from '../slices/filmApiSlice.js'
-import { useDispatch } from 'react-redux';
+import { useGetWatchListQuery } from '../slices/userApiSlice.js'
+import { useDispatch, useSelector } from 'react-redux';
 import FilmCard from '../components/FilmCard';
 import { Button, Col, 
          Spinner, 
@@ -11,7 +12,8 @@ const FilmPageScreen = () => {
 
   let { keyword } = useParams();
   keyword =  keyword ? keyword : "avengers";
-  const { data:filmData, isLoading, refetch , error, isError  } = useGetFilmsQuery({keyword})
+  const { data:filmData, isLoading, refetch , error,  } = useGetFilmsQuery({keyword})
+  const { data:userWatchList, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery({keyword})
 
 
   const dispatch = useDispatch()
@@ -20,6 +22,10 @@ const FilmPageScreen = () => {
        dispatch(logout())
        console.log("printing film data: ", filmData)
   }
+
+  //const userInfo = useSelector( (state) => state.auth.userInfo )
+  //console.log("userInfo from store: ", userInfo)
+  //useEffect( () => { console.log("userWatchList from store: ", userWatchList) } )
 
   return (
 
@@ -30,7 +36,10 @@ const FilmPageScreen = () => {
             <Row>
                     { filmData.Search.map( (f) =>  (   
                                                       <Col key={f.imdbID} xs={12} md={4}>
-                                                          <FilmCard  fcard = {f} />
+                                                          <FilmCard  
+                                                              fcard = {f}
+                                                              watched={userWatchList.includes(f.imdbID)}
+                                                           />
                                                       </Col>
                                                   ) )}     
             </Row>

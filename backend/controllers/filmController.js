@@ -15,7 +15,7 @@ const getHomepageFilms = asyncHandler( async ( req, res ) => {
           }
           
           const result = await response.json();
-          console.log("Film recuperati per keyword: ", key, result)
+          //console.log("Film recuperati per keyword: ", key, result)
          
           //result.Search.forEach( (i) => console.log(i))
           res.status(201).json(result)
