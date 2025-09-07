@@ -14,7 +14,7 @@ const SearchBox = () => {
 
   const handleSubmit = async(e) =>  {
     e.preventDefault();
-    navigate("/search/" + searchKey)
+    navigate("/search/" + (!searchKey || searchKey.trim() === "" ? "avengers" : searchKey))
 
   }
 
