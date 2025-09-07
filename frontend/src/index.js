@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import  LoginScreen  from "./screens/LoginScreen"
+import  RegisterScreen  from "./screens/RegisterScreen"
 import  HomePageScreen  from "./screens/HomePageScreen"
 import  FilmPageScreen  from "./screens/FilmPageScreen"
 import  PrivateRoute  from "./components/PrivateRoute"
@@ -22,6 +23,7 @@ root.render(
         
           <Route index={true} path="/" element={<HomePageScreen />} />
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/register" element={<RegisterScreen />} />
 
 
           { /* private routes, require login*/ }

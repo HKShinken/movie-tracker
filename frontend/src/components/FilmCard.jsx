@@ -2,7 +2,8 @@ import { Card, ListGroup, Button } from 'react-bootstrap';
 import { FcAddDatabase, FcCheckmark   } from "react-icons/fc";
 import { useAddFilmToWatchlistMutation, useDelFilmFromWatchlistMutation } from '../slices/userApiSlice.js';
 import { useState } from 'react';
-import { toast } from 'react-toastify';;
+import { toast } from 'react-toastify';
+import img_placeholder from '../assets/img_placeholder.png';
 
 const FilmCard = ({fcard, watched}) => {
 
@@ -16,8 +17,12 @@ const FilmCard = ({fcard, watched}) => {
             { isLoading: isDeleting, errorDel , resetDel }, // This is the destructured mutation result
           ] = useDelFilmFromWatchlistMutation();
   
+
+
+
   // handler used by button
   const addFilmHandler = async(imdbId) => {
+
 
     try{
           if(!added)
@@ -43,7 +48,13 @@ const FilmCard = ({fcard, watched}) => {
     <>
       <Card key={fcard.imdbID} className = "mb-3" style={{ width: '18rem' }}>
 
-        <Card.Img variant="top" src={fcard.Poster} />
+        <Card.Img variant="top" 
+                  src={fcard.Poster}
+                  onError={(e) => {
+                                    e.target.src = img_placeholder;
+                                    e.target.onError = null; // evita loop infinito se anche il placeholder fallisce
+                                  }}
+        />
         <Card.Body>
             
             <Card.Title>{fcard.Title}</Card.Title>

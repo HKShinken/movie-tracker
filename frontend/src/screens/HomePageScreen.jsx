@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { Row } from 'react-bootstrap'
 
 
 const HomePageScreen = () => {
 
-  const dispatch = useDispatch()
 
   return (
     <>
@@ -13,7 +13,8 @@ const HomePageScreen = () => {
         Welcome to Movie tracker!!
       </h1>
 
-      <Link to="/login"> Click here to Login </Link>
+     <Row> <Link to="/register" className="mt-4"> Click here to Register </Link> </Row>
+     <Row > <Link to="/login" className="mt-4"> Alredy registered? Click here to Login! </Link> </Row>
 
     </>
   );

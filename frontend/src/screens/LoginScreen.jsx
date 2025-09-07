@@ -1,14 +1,13 @@
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Row } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import {toast} from 'react-toastify'
 
 import { useLoginMutation } from '../slices/userApiSlice.js'
 
 import { setUsrCredentials } from '../slices/authSlice.js';
-
-
 
 const LoginScreen = () => {
 
@@ -23,7 +22,7 @@ const LoginScreen = () => {
 
 
     const [ login, // This is the mutation trigger
-            { isLoading: isUpdating, error , reset }, // This is the destructured mutation result
+            { isLoading: isUpdating/*, error , reset */ }, // This is the destructured mutation result
           ] = useLoginMutation()
 
   const handleSubmit = async (e) => {
@@ -43,7 +42,7 @@ const LoginScreen = () => {
 
       } catch (err) {
         console.log(err?.data?.message || err.error);
-        //toast.error(err?.data?.message || err.error)
+        toast.error(err?.data?.message || err.error)
       }
 }
 
@@ -83,7 +82,11 @@ const LoginScreen = () => {
       <Button type="submit">Submit</Button>
 
       </Form>
+
+      <Row> <Link to="/register" className="mt-4"> Click here to Register </Link> </Row>
     </FormContainer>
+
+    
 
   );
 }

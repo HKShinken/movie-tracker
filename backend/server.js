@@ -30,6 +30,9 @@ app.use(express.urlencoded({ extended: true }))
 //cookie parser middleware
 app.use(cookieParser());
 
+//needed to serve static files, images
+//app.use('/static', express.static(path.join(__dirname, 'public')))
+
 /* ********************************** ROUTING ********************************** */
 app.use("/api/users", userRoutes)
 app.use("/api/film", filmRoutes)

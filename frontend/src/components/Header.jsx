@@ -1,17 +1,35 @@
 import Container from 'react-bootstrap/Container';
+import { logout } from '../slices/authSlice.js'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import SearchBox from './SearchBox';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 function Header() {
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const userInfo = useSelector( (state) => state.auth.userInfo );
+
+  const logoutHandler = async() => {
+         dispatch(logout())
+         navigate("/")
+         toast.success("Logged out")
+    }
+
+   
   return (
     <Navbar expand="lg" 
             className="bg-primary-subtle border-bottom border-primary" variant="light">
-
+              
       <Container fluid>
-        <Navbar.Brand href="#home">Simple movie tracker</Navbar.Brand>
+        <Navbar.Brand href="/">Simple movie tracker</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -20,21 +38,16 @@ function Header() {
 
           <Nav className="ms-auto d-flex " style={{marginRight: "25%"}}>
           
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
+              <Nav.Link href="/"><strong>Home</strong></Nav.Link>
 
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown" >
+           { userInfo && <NavDropdown title={userInfo.name} id="basic-nav-dropdown" >
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-            </NavDropdown>
 
+                <NavDropdown.Item onClick={logoutHandler}> Logout </NavDropdown.Item>
+            </NavDropdown> }
 
           </Nav>
         </Navbar.Collapse>

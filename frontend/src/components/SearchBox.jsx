@@ -26,7 +26,7 @@ const SearchBox = () => {
           > 
           
           <Form.Group  controlId="searchForm" 
-                       style={{maxWidth:"50%"}}>
+                       style={{maxWidth:"75%"}}>
                 <Form.Label></Form.Label>
                 <Form.Control type="text"
                               //required

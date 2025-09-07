@@ -16,7 +16,6 @@ const FilmPageScreen = () => {
   const { data:filmData, isLoading, refetch , error,  } = useGetFilmsQuery({keyword})
   const { data:userWatchList, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery({keyword})
 
-
   const dispatch = useDispatch()
 
   const logoutHandler = async() => {
@@ -32,7 +31,7 @@ const FilmPageScreen = () => {
 
       <Container fluid>
        
-        { isLoading ? <> <h2>loading ... </h2><Spinner /> </> :
+        { isLoading || wlistLoading ? <> <h2>loading ... </h2><Spinner /> </> :
           !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" </h2> : <>
             <Row>
                     { [...filmData.Search].sort((a,b) => { return parseInt(b.Year.substring(0,4)) - parseInt(a.Year.substring(0,4)) } ) //sorted by year asc
