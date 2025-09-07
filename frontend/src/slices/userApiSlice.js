@@ -13,11 +13,20 @@ const allApi = apiSlice.injectEndpoints({
             }),
         }),
 
-        addFilm: build.mutation({
+        addFilmToWatchlist: build.mutation({
             
             query: ( data ) => ({
                 url: `/api/users/wlist`,
                 method: 'POST',
+                body: data,
+            }),
+        }),
+
+        delFilmFromWatchlist: build.mutation({
+            
+            query: ( data ) => ({
+                url: `/api/users/wlist`,
+                method: 'DELETE',
                 body: data,
             }),
         }),
@@ -35,7 +44,7 @@ const allApi = apiSlice.injectEndpoints({
     })
 })
 
-export const { useLoginMutation, useAddFilmMutation, useGetWatchListQuery } = allApi
+export const { useLoginMutation, useAddFilmToWatchlistMutation, useDelFilmFromWatchlistMutation, useGetWatchListQuery } = allApi
 
 /* 
 useMutation returns a tuple. 

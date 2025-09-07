@@ -12,6 +12,7 @@ const FilmPageScreen = () => {
 
   let { keyword } = useParams();
   keyword =  keyword ? keyword : "avengers";
+  
   const { data:filmData, isLoading, refetch , error,  } = useGetFilmsQuery({keyword})
   const { data:userWatchList, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery({keyword})
 
@@ -34,7 +35,8 @@ const FilmPageScreen = () => {
         { isLoading ? <> <h2>loading ... </h2><Spinner /> </> :
           !filmData.Response ? <h2> No Results for "{keyword}" </h2> : <>
             <Row>
-                    { filmData.Search.map( (f) =>  (   
+                    { [...filmData.Search].sort((a,b) => { return parseInt(b.Year.substring(0,4)) - parseInt(a.Year.substring(0,4)) } ) //sorted by year asc
+                    .map( (f) =>  (   
                                                       <Col key={f.imdbID} xs={12} md={4}>
                                                           <FilmCard  
                                                               fcard = {f}

@@ -4,7 +4,8 @@ import {
          registerUser,
          loginUser,
          addFilmToWatchlist,
-         getUserWatchList
+         getUserWatchList,
+         delFilmFromWatchlist
  } from "../controllers/userController.js"
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
@@ -18,7 +19,8 @@ router.route("/login").post( loginUser );
 
 //prtected routes
 router.route("/wlist").post( checkLogin, addFilmToWatchlist )
-                      .get( checkLogin, getUserWatchList );
+                      .get( checkLogin, getUserWatchList )
+                      .delete( checkLogin, delFilmFromWatchlist );
 
 
 

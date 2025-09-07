@@ -1,23 +1,39 @@
 import { Card, ListGroup, Button } from 'react-bootstrap';
 import { FcAddDatabase, FcCheckmark   } from "react-icons/fc";
-import { useAddFilmMutation } from '../slices/userApiSlice.js';
+import { useAddFilmToWatchlistMutation, useDelFilmFromWatchlistMutation } from '../slices/userApiSlice.js';
 import { useState } from 'react';
+import { toast } from 'react-toastify';;
 
 const FilmCard = ({fcard, watched}) => {
 
-  const [disabled, setDisabled] = useState(watched);
+  const [added, setAdded] = useState(watched);
 
-  const [ addFilm, // This is the mutation trigger
+  const [ addFilmToWatchlist, // This is the mutation trigger
             { isLoading: isUpdating, error , reset }, // This is the destructured mutation result
-          ] = useAddFilmMutation();
+          ] = useAddFilmToWatchlistMutation();
+
+    const [ delFilmFromWatchlist, // This is the mutation trigger
+            { isLoading: isDeleting, errorDel , resetDel }, // This is the destructured mutation result
+          ] = useDelFilmFromWatchlistMutation();
   
   // handler used by button
   const addFilmHandler = async(imdbId) => {
 
     try{
-          const res = await addFilm( { imdbId } ).unwrap()
-          setDisabled(true)
-          console.log("Film added to watchlist: ", res)
+          if(!added)
+          {
+              await addFilmToWatchlist( { imdbId } ).unwrap()
+              toast.success("Film added to watchlist")
+              console.log("Film added to watchlist")
+          }        
+          else 
+          {
+             await delFilmFromWatchlist( { imdbId } ).unwrap()
+             toast.success("Film deleted from your watchlist")
+             console.log("Film deleted from watchlist")
+          }        
+          setAdded(!added)
+          
     } catch(err) {
           console.log(err?.data?.message || err.error);
     }
@@ -35,13 +51,13 @@ const FilmCard = ({fcard, watched}) => {
             <ListGroup variant="flush">
                 <ListGroup.Item>Year: {fcard.Year}</ListGroup.Item>
                 <ListGroup.Item>Type: {fcard.Type}</ListGroup.Item>
-                <ListGroup.Item>Add to wathlist
+                <ListGroup.Item>{ added ? "In your watchlist" : "Add to your watchlist" }
                     <Button variant="link" 
                             size="lg" 
-                            className="p-1 mb-1"
-                            disabled={disabled}
+                            className="p-1 mb-2"
+                            //disabled={disabled}
                             onClick={() => addFilmHandler(fcard.imdbID)}>
-                       { disabled ? <FcCheckmark /> : <FcAddDatabase/>  }
+                       { added ? <FcCheckmark/> : <FcAddDatabase/> }
                     </Button> 
                 </ListGroup.Item>
             </ListGroup>

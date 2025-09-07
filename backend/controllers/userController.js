@@ -88,6 +88,25 @@ const addFilmToWatchlist = asyncHandler(async (req, res) => {
 
   res.status(201).json("Film added to watchlist")
 
+});  
+
+
+const delFilmFromWatchlist = asyncHandler(async (req, res) => {
+
+  const imdbId = req.body.imdbId;
+  const userId = req.user._id.toString() //comes from checkLogin middleware
+
+  //console.log("Printing post data: ", { imdbId, userId })
+
+  const rec = await Watchlist.deleteMany( { user: userId, imdbId } );
+
+  if(!rec) {
+    res.status(400)
+    throw new Error("Error deleting film to watchlist")
+  }
+
+  res.status(201).json("Film deleted from watchlist")
+
 });
 
 
@@ -110,4 +129,5 @@ const getUserWatchList = asyncHandler( async(req, res) => {
 export { registerUser, 
         loginUser, 
         addFilmToWatchlist, 
-        getUserWatchList};
+        getUserWatchList,
+        delFilmFromWatchlist};
