@@ -21,13 +21,13 @@ const FilmCard = ({fcard, watched}) => {
 
 
   // handler used by button
-  const addFilmHandler = async(imdbId) => {
+  const addFilmHandler = async(imdbId, poster, title, year) => {
 
 
     try{
           if(!added)
           {
-              await addFilmToWatchlist( { imdbId } ).unwrap()
+              await addFilmToWatchlist( { imdbId, poster, title, year } ).unwrap()
               toast.success("Film added to watchlist")
               console.log("Film added to watchlist")
           }        
@@ -67,7 +67,7 @@ const FilmCard = ({fcard, watched}) => {
                             size="lg" 
                             className="p-1 mb-2"
                             //disabled={disabled}
-                            onClick={() => addFilmHandler(fcard.imdbID)}>
+                            onClick={() => addFilmHandler(fcard.imdbID, fcard.Poster, fcard.Title, fcard.Year) }>
                        { added ? <FcCheckmark/> : <FcAddDatabase/> }
                     </Button> 
                 </ListGroup.Item>

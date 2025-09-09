@@ -29,7 +29,7 @@ const FilmPageScreen = () => {
 
   return (
 
-      <Container fluid>
+      <Container fluid> 
        
         { isLoading || wlistLoading ? <> <h2>loading ... </h2><Spinner /> </> :
           !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" </h2> : <>
@@ -39,7 +39,7 @@ const FilmPageScreen = () => {
                                                       <Col key={f.imdbID} xs={12} md={4}>
                                                           <FilmCard  
                                                               fcard = {f}
-                                                              watched={userWatchList.includes(f.imdbID)}
+                                                              watched={(userWatchList.map(u => u.imdbId)).includes(f.imdbID)}
                                                            />
                                                       </Col>
                                                   ) )}     

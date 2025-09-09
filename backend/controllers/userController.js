@@ -74,12 +74,15 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const addFilmToWatchlist = asyncHandler(async (req, res) => {
 
-  const imdbId = req.body.imdbId;
+  const imdbId = req.body.imdbId; 
+  const poster = req.body.poster;
+  const title = req.body.title;
+  const year = req.body.year;
   const userId = req.user._id.toString() //comes from checkLogin middleware
 
   //console.log("Printing post data: ", { imdbId, userId })
 
-  const rec = await Watchlist.create( { user: userId, imdbId } );
+  const rec = await Watchlist.create( { user: userId, imdbId, poster, title, year } );
 
   if(!rec) {
     res.status(400)
@@ -115,7 +118,9 @@ const getUserWatchList = asyncHandler( async(req, res) => {
    const userId = req.user._id;
 
    //distinct method returns array of distinct values without the keys, it can be used on only one field
-   const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
+   //const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
+   const wlist = await Watchlist.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }) //excludes user and _id fields;
+   //console.log("Watchlist for user ", userId, wlist)
 
    if(!wlist) {
     res.status(400)

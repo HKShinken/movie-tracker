@@ -8,6 +8,10 @@ const wlistSchema = new mongoose.Schema(
 
     imdbId: { type: String, required: true, }, // String and Date are shorthands for {type: String}, {type: Date} required: true, },
 
+    poster: { type: String, required: true, }, // String and Date are shorthands for {type: String}, {type: Date} required: true, },
+    title: { type: String, required: true, }, // String and Date are shorthands for {type: String}, {type: Date} required: true, },
+    year: { type: String, required: true, }, // String and Date are shorthands for {type: String}, {type: Date} required: true, },
+
     watched: { type: Boolean, required: true, default: false, },
   },
 

@@ -22,6 +22,4 @@ router.route("/wlist").post( checkLogin, addFilmToWatchlist )
                       .get( checkLogin, getUserWatchList )
                       .delete( checkLogin, delFilmFromWatchlist );
 
-
-
 export default router;
