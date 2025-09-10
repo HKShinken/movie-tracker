@@ -10,6 +10,7 @@ import  HomePageScreen  from "./screens/HomePageScreen"
 import  FilmPageScreen  from "./screens/FilmPageScreen"
 import  PrivateRoute  from "./components/PrivateRoute"
 import SearchBox from './components/SearchBox';
+import UserWatchlist from './screens/UserWatchlist';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -30,6 +31,7 @@ root.render(
           <Route path="" element={<PrivateRoute />}>
               <Route path="/filmpage" element={<FilmPageScreen />} />
               <Route path="/search/:keyword" element={<FilmPageScreen />} />
+              <Route path="/search/watchlist" element={<UserWatchlist />} />
           </Route>
 
         </Route>

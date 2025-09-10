@@ -1,12 +1,11 @@
 import Container from 'react-bootstrap/Container';
 import { logout } from '../slices/authSlice.js'
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Navbar, NavDropdown, Nav } from 'react-bootstrap'
 import SearchBox from './SearchBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -41,7 +40,7 @@ function Header() {
               <Nav.Link href="/"><strong>Home</strong></Nav.Link>
 
            { userInfo && <NavDropdown title={userInfo.name} id="basic-nav-dropdown" >
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item><Link to="/search/watchlist">Your Watchlist</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 
                 <NavDropdown.Divider />
