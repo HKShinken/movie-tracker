@@ -16,8 +16,6 @@ const LoginScreen = () => {
 
   const navigate = useNavigate();
 
-  //getting action and state from slice 
-  const countInc = useSelector((state) => state.counter.value)
   const dispatch = useDispatch()
 
 

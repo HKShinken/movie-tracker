@@ -4,13 +4,16 @@ import 'bootstrap/dist/css/bootstrap.min.css'; //default bootstrap file
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
-import  LoginScreen  from "./screens/LoginScreen"
-import  RegisterScreen  from "./screens/RegisterScreen"
-import  HomePageScreen  from "./screens/HomePageScreen"
-import  FilmPageScreen  from "./screens/FilmPageScreen"
-import  PrivateRoute  from "./components/PrivateRoute"
-import SearchBox from './components/SearchBox';
+import LoginScreen  from "./screens/LoginScreen"
+import RegisterScreen  from "./screens/RegisterScreen"
+import HomePageScreen  from "./screens/HomePageScreen"
+import FilmPageScreen  from "./screens/FilmPageScreen"
+import PrivateRoute  from "./components/PrivateRoute"
+import AdminRoute  from "./components/AdminRoute"
+import UserListScreen from './screens/UserListScreen';
 import UserWatchlist from './screens/UserWatchlist';
+import ReviewComponent from './components/ReviewComponent';
+import MakeReviewComponent from './components/MakeReviewComponent';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,6 +29,8 @@ root.render(
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
 
+          <Route path="/test" element={<MakeReviewComponent />} />
+
 
           { /* private routes, require login*/ }
           <Route path="" element={<PrivateRoute />}>
@@ -36,20 +41,10 @@ root.render(
 
         </Route>
 
-
-
-
-
-
-         { /* admin routes placeholder, the not mapped above
+         
        <Route path="" element={<AdminRoute />}>
-          <Route path="/admin/orderlist" element={<OrderListScreen />} />
-          <Route path="/admin/productlist" element={<ProductListScreen />} />
-          <Route path="/admin/productlist/:pageNumber" element={<ProductListScreen />} />
           <Route path="/admin/userlist" element={<UserListScreen />} />
-          <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
-          <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
-       </Route> */ }
+       </Route> 
 
       </Routes>
 
