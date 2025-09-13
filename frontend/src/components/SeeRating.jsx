@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
 
-const ReviewComponent = ({rating}) => {
+const SeeRating = ({rating}) => {
 
 
   return (
@@ -24,4 +24,4 @@ const ReviewComponent = ({rating}) => {
   );
 }
 
-export default ReviewComponent;
+export default SeeRating;

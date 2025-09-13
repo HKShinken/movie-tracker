@@ -1,13 +1,15 @@
 import { Card, ListGroup, Button } from 'react-bootstrap';
 import { FcAddDatabase, FcCheckmark   } from "react-icons/fc";
+import MakeRating from './MakeRating.jsx';
+import SeeRating from './SeeRating.jsx';
 import { useAddFilmToWatchlistMutation, useDelFilmFromWatchlistMutation } from '../slices/userApiSlice.js';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import img_placeholder from '../assets/img_placeholder.png';
 
-const FilmCard = ({fcard, watched}) => {
+const FilmCard = ({fcard, inList, review}) => {
 
-  const [added, setAdded] = useState(watched);
+  const [added, setAdded] = useState(inList);
 
   const [ addFilmToWatchlist, // This is the mutation trigger
             { isLoading: isUpdating, error , reset }, // This is the destructured mutation result
@@ -17,8 +19,6 @@ const FilmCard = ({fcard, watched}) => {
             { isLoading: isDeleting, errorDel , resetDel }, // This is the destructured mutation result
           ] = useDelFilmFromWatchlistMutation();
   
-
-
 
   // handler used by button
   const addFilmHandler = async(imdbId, poster, title, year) => {
@@ -45,7 +45,7 @@ const FilmCard = ({fcard, watched}) => {
   }
 
   return (
-    <>
+    <>{review?.rate && console.log("Printing review prop in FilmCard: ", review)}
       <Card key={fcard.imdbID} className = "mb-3" style={{ width: '18rem' }}>
 
         <Card.Img variant="top" 
@@ -62,6 +62,9 @@ const FilmCard = ({fcard, watched}) => {
             <ListGroup variant="flush">
                 <ListGroup.Item>Year: {fcard.Year}</ListGroup.Item>
                 <ListGroup.Item>Type: {fcard.Type}</ListGroup.Item>
+                <ListGroup.Item><MakeRating 
+                                                imdbId={fcard.imdbID}
+                                                originalRating={review?.rate} /></ListGroup.Item>
                 <ListGroup.Item>{ added ? "In your watchlist" : "Add to your watchlist" }
                     <Button variant="link" 
                             size="lg" 

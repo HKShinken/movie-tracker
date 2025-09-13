@@ -1,7 +1,7 @@
 import { logout } from '../slices/authSlice.js'
 import { useGetFilmsQuery } from '../slices/filmApiSlice.js'
 import { useGetWatchListQuery } from '../slices/userApiSlice.js'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import FilmCard from '../components/FilmCard';
 import { Button, Col, 
          Spinner, 
@@ -13,14 +13,14 @@ const FilmPageScreen = () => {
   let { keyword } = useParams();
   keyword =  keyword ? keyword : "avengers";
 
-  const { data:filmData, isLoading, refetch , error,  } = useGetFilmsQuery({keyword})
-  const { data:userWatchList, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery({keyword})
+  const { data:filmData, isLoading  } = useGetFilmsQuery({keyword})
+  const { data:userWatchList, isLoading: wlistLoading  } = useGetWatchListQuery({keyword})
 
   const dispatch = useDispatch()
 
   const logoutHandler = async() => {
        dispatch(logout())
-       console.log("printing film data: ", filmData)
+       console.log("printing film data: ", userWatchList)
   }
 
   //const userInfo = useSelector( (state) => state.auth.userInfo )
@@ -39,7 +39,8 @@ const FilmPageScreen = () => {
                                                       <Col key={f.imdbID} xs={12} md={4}>
                                                           <FilmCard  
                                                               fcard = {f}
-                                                              watched={(userWatchList.map(u => u.imdbId)).includes(f.imdbID)}
+                                                              inList={ (userWatchList.wlist.map(u => u.imdbId)).includes(f.imdbID) }
+                                                              review={ (userWatchList.reviews.find(r => r.imdbId === f.imdbID)) }
                                                            />
                                                       </Col>
                                                   ) )}     

@@ -1,0 +1,28 @@
+.bg-none {
+  background: none !important;
+  border: none !important;
+   width: 1.8rem
+}
+
+/* questi stati sovrascrivono quelli di default di Bootstrap su ciascun evento */
+.bg-none:hover,
+.bg-none:focus,
+.bg-none:active,
+.bg-none-nocursor:disabled{
+  background: none;
+  border: none;   /* se vuoi togliere anche il bordo */
+  color: inherit; /* mantiene il colore del testo del contesto */
+  cursor: pointer; /* opzionale: mostra la mano al passaggio */
+  width: 1.8rem
+}
+
+
+.inert-button {
+  background: none !important;
+  opacity: 1 !important; /* mantiene il colore pieno */
+  border: none;   /* se vuoi togliere anche il bordo */
+  color: black !important; /* mantiene il colore del testo del contesto */
+  pointer-events: none; /* disabilita il click */
+  cursor: default; /* facoltativo, cambia il cursore */
+  width: 1.8rem;
+}

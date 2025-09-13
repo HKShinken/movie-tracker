@@ -5,7 +5,9 @@ import {
          loginUser,
          addFilmToWatchlist,
          getUserWatchList,
-         delFilmFromWatchlist
+         delFilmFromWatchlist,
+         addReviewFilm
+         
  } from "../controllers/userController.js"
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
@@ -21,5 +23,7 @@ router.route("/login").post( loginUser );
 router.route("/wlist").post( checkLogin, addFilmToWatchlist )
                       .get( checkLogin, getUserWatchList )
                       .delete( checkLogin, delFilmFromWatchlist );
+
+router.route("/review").post( checkLogin, addReviewFilm )
 
 export default router;

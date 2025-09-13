@@ -48,6 +48,15 @@ const allApi = apiSlice.injectEndpoints({
             }),
         }),
 
+        addFilmReview: build.mutation({
+            
+            query: ( data ) => ({
+                url: `/api/users/review`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
 
         overrideExisting: false,
     })
@@ -57,7 +66,8 @@ export const { useLoginMutation,
                useRegisterMutation, 
                useAddFilmToWatchlistMutation, 
                useDelFilmFromWatchlistMutation, 
-               useGetWatchListQuery } = allApi
+               useGetWatchListQuery,
+               useAddFilmReviewMutation } = allApi
 
 /* 
 useMutation returns a tuple. 

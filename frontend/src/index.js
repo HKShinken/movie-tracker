@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; //default bootstrap file
+import './assets/styles/custom_style.css';
 //import './assets/styles/index.css'; //opzionali forniti dal corso
 //import './assets/styles/bootstrap.custom.css';
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginScreen  from "./screens/LoginScreen"
 import RegisterScreen  from "./screens/RegisterScreen"
 import HomePageScreen  from "./screens/HomePageScreen"
@@ -12,8 +13,7 @@ import PrivateRoute  from "./components/PrivateRoute"
 import AdminRoute  from "./components/AdminRoute"
 import UserListScreen from './screens/UserListScreen';
 import UserWatchlist from './screens/UserWatchlist';
-import ReviewComponent from './components/ReviewComponent';
-import MakeReviewComponent from './components/MakeReviewComponent';
+import MakeReview from './components/MakeRating';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,7 +29,7 @@ root.render(
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/register" element={<RegisterScreen />} />
 
-          <Route path="/test" element={<MakeReviewComponent />} />
+          <Route path="/test" element={<MakeReview originalRating={3}/>} />
 
 
           { /* private routes, require login*/ }

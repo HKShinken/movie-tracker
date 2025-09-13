@@ -2,6 +2,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import generateJwt from '../utils/generateJwt.js'
 import User from '../model/User.js'
 import Watchlist from '../model/Watchlist.js'
+import Review from '../model/Review.js'
 
 // @desc register user & get token
 // @route POST /api/users/register
@@ -119,20 +120,78 @@ const getUserWatchList = asyncHandler( async(req, res) => {
 
    //distinct method returns array of distinct values without the keys, it can be used on only one field
    //const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
-   const wlist = await Watchlist.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }) //excludes user and _id fields;
-   //console.log("Watchlist for user ", userId, wlist)
+   const wlist = await Watchlist.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
+    // get also reviews for the user
+   const reviews = await Review.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
 
    if(!wlist) {
     res.status(400)
     throw new Error("Error retrieving watchlist")
    }
 
-   res.status(201).json(wlist)
+   console.log("Printing watchlist with reviews: ", wlist, reviews)
+
+   res.status(201).json({wlist, reviews})
 
 })
+
+const addReviewFilm = asyncHandler(async (req, res) => {
+
+  const imdbId = req.body.imdbId; 
+  const userId = req.user._id.toString() //comes from checkLogin middleware
+  const rate = req.body.rate;
+  const watched = req.body.watched;
+  const review = req.body.review;
+
+  //console.log("Printing post data: ", { imdbId, userId })
+  const isReviewed = await Review.findOne( { user: userId, imdbId } );
+  let rec = null;
+
+  if(isReviewed) {
+    isReviewed.rate = rate;
+    isReviewed.review = review;
+    isReviewed.watched = watched;
+    rec = await isReviewed.save();  
+  }
+  else {
+          console.log("printing post data: ", { imdbId, userId, rate, watched, review })
+          rec = await Review.create( { user: userId, imdbId, rate, watched, review } );
+  }
+
+  if(!rec) {
+    res.status(400)
+    throw new Error("Error adding film review")
+  }
+
+  res.status(201).json("Review added successfully")
+
+});
+
+const getFilmReviews = asyncHandler(async (req, res) => {
+
+  const imdbId = req.body.imdbId; 
+  const userId = req.user._id.toString() //comes from checkLogin middleware
+  const rank = req.body.rank;
+  const watched = req.body.watched;
+  const review = req.body.review;
+
+  //console.log("Printing post data: ", { imdbId, userId })
+
+  const rec = await Review.save( { user: userId, imdbId, rank, review } );
+
+  if(!rec) {
+    res.status(400)
+    throw new Error("Error adding film review")
+  }
+
+  res.status(201).json("Review added successfully")
+
+});
 
 export { registerUser, 
         loginUser, 
         addFilmToWatchlist, 
         getUserWatchList,
-        delFilmFromWatchlist};
+        delFilmFromWatchlist,
+        addReviewFilm,
+        getFilmReviews};
