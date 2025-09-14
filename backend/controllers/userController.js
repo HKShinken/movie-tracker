@@ -121,17 +121,29 @@ const getUserWatchList = asyncHandler( async(req, res) => {
    //distinct method returns array of distinct values without the keys, it can be used on only one field
    //const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
    const wlist = await Watchlist.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
-    // get also reviews for the user
-   const reviews = await Review.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
 
+    // get also reviews for the user
+   const reviews = await Review.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }) //excludes user and _id fields;
+
+    // gets average rating for each film reviewd
+  const avgRating = await Review.aggregate([
+        //{ $match: { user: userId } },
+        {
+          $group: {
+            _id: "$imdbId",
+            value: { $avg: { $toInt: "$rate" } },   
+            numReviews: {  $sum: 1 }
+          }
+        }
+    ]); // lean() not needed for aggregations
+
+    //console.log("printing avgRating: ", avgRating)
    if(!wlist) {
-    res.status(400)
-    throw new Error("Error retrieving watchlist")
+       res.status(400)
+       throw new Error("Error retrieving watchlist")
    }
 
-   console.log("Printing watchlist with reviews: ", wlist, reviews)
-
-   res.status(201).json({wlist, reviews})
+   res.status(201).json({ wlist, reviews, avgRating })
 
 })
 

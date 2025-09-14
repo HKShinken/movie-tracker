@@ -11,9 +11,16 @@ const allApi = apiSlice.injectEndpoints({
             }),
         }),
 
+        getFilmReviewData: build.query({
+            query: (data) => ({
+                url: `/api/film/data/` + data.imdbId,
+                method: 'GET',
+            }),
+        }),
+
         //overrideExisting: false,
     })
 })
 
-export const { useGetFilmsQuery } = allApi
+export const { useGetFilmsQuery, useGetFilmReviewDataQuery } = allApi
 

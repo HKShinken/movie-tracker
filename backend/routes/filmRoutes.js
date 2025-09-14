@@ -1,12 +1,15 @@
 import express from "express";
 
-import { getHomepageFilms } from "../controllers/filmController.js";
+import { getHomepageFilms,
+    getFilmData
+ } from "../controllers/filmController.js";
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
 
 
 const router = express.Router();
 router.route("/filmpage/:keyword").get(checkLogin, getHomepageFilms)
+router.route("/data/:imdbId").get(checkLogin, getFilmData)
 
 
 //router.route("/homepage/:title").get( getHomepageFilms )

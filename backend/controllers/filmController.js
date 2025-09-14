@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import Review from '../model/Review.js'
 import asyncHandler from '../middlewares/asyncHandler.js'
 
 const getHomepageFilms = asyncHandler( async ( req, res ) => {
@@ -29,5 +29,32 @@ const getHomepageFilms = asyncHandler( async ( req, res ) => {
 })
 
 
+const getFilmData = asyncHandler( async ( req, res ) => {
 
-export { getHomepageFilms }
+    try {
+          const imdbId = req.params.imdbId; 
+          
+          const result = await Review.aggregate([
+                { $match: { imdbId } },
+                {
+                  $group: {
+                    _id: "$imdbId",
+                    avgRating: { $avg: { $toInt: "$rate" } },   
+                    numReviews: {  $sum: 1 }
+                  }
+                }
+            ]); // lean() not needed for aggregations
+         
+          //console.log("printing avgRating for imdbId ", imdbId, ": ", result)
+          res.status(201).json(result)
+
+      } catch (error) {
+        //console.error(error.message);
+        res.status(500)
+        throw new Error(error.message);
+      }
+
+})
+
+
+export { getHomepageFilms, getFilmData}

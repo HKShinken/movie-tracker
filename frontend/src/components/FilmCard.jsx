@@ -45,7 +45,7 @@ const FilmCard = ({fcard, inList, review}) => {
   }
 
   return (
-    <>{review?.rate && console.log("Printing review prop in FilmCard: ", review)}
+    <>{review?.rate && console.log("Printing review prop in FilmCard: ", review, fcard.imdbID)}
       <Card key={fcard.imdbID} className = "mb-3" style={{ width: '18rem' }}>
 
         <Card.Img variant="top" 
@@ -62,13 +62,16 @@ const FilmCard = ({fcard, inList, review}) => {
             <ListGroup variant="flush">
                 <ListGroup.Item>Year: {fcard.Year}</ListGroup.Item>
                 <ListGroup.Item>Type: {fcard.Type}</ListGroup.Item>
-                <ListGroup.Item><MakeRating 
-                                                imdbId={fcard.imdbID}
-                                                originalRating={review?.rate} /></ListGroup.Item>
-                <ListGroup.Item>{ added ? "In your watchlist" : "Add to your watchlist" }
+                <ListGroup.Item> <MakeRating 
+                                                imdbId={fcard?.imdbID}
+                                                originalRating={review?.rate}
+                                                /></ListGroup.Item>
+                <ListGroup.Item>
+                    <label for={"addButton" + fcard.imdbID} style={{cursor:"pointer"}}>{ added ? "In your watchlist" : "Add to your watchlist" }</label>
                     <Button variant="link" 
                             size="lg" 
                             className="p-1 mb-2"
+                            id={"addButton" + fcard.imdbID}
                             //disabled={disabled}
                             onClick={() => addFilmHandler(fcard.imdbID, fcard.Poster, fcard.Title, fcard.Year) }>
                        { added ? <FcCheckmark/> : <FcAddDatabase/> }
