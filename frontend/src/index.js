@@ -11,7 +11,7 @@ import HomePageScreen  from "./screens/HomePageScreen"
 import FilmPageScreen  from "./screens/FilmPageScreen"
 import PrivateRoute  from "./components/PrivateRoute"
 import AdminRoute  from "./components/AdminRoute"
-import UserListScreen from './screens/UserListScreen';
+import UserListScreen from './screens/admin/UserListScreen';
 import UserWatchlist from './screens/UserWatchlist';
 import MakeReview from './components/MakeRating';
 
@@ -37,13 +37,15 @@ root.render(
               <Route path="/filmpage" element={<FilmPageScreen />} />
               <Route path="/search/:keyword" element={<FilmPageScreen />} />
               <Route path="/search/watchlist" element={<UserWatchlist />} />
+
+              <Route path="/admin/userlist" element={<UserListScreen />} />
           </Route>
 
         </Route>
 
          
        <Route path="" element={<AdminRoute />}>
-          <Route path="/admin/userlist" element={<UserListScreen />} />
+          <Route path="adsads/admin/userlist" element={<UserListScreen />} />
        </Route> 
 
       </Routes>

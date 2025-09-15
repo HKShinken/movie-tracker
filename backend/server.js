@@ -1,4 +1,3 @@
-import path from 'path';
 
 import express from 'express'
 import dotenv from 'dotenv';
@@ -9,6 +8,7 @@ import connectDB from './utils/connectDB.js'
 import cookieParser from 'cookie-parser';
 import userRoutes from "./routes/userRoutes.js"
 import filmRoutes from "./routes/filmRoutes.js"
+import adminRoutes from "./routes/adminRoute.js"
 
 
 dotenv.config(); //RICORDA CHE QUELLO CHE CAMBI A MANO SU ENV RICHIEDE IL RIAVVIO DEL SERVER ANCHE SE USI NODEMON
@@ -37,6 +37,9 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes)
 app.use("/api/film", filmRoutes)
 
+
+
+app.use("/api/admin", adminRoutes)
 
 //app.get('/', (req, res) => { res.send('hola!') })
 

@@ -1,0 +1,35 @@
+import { apiSlice } from "./apiSlice.js"
+
+const allApi = apiSlice.injectEndpoints({
+
+  endpoints: (build) => ({
+
+        getUserList: build.query({
+            query: () => ({
+                url: `/api/admin/userlist/`,
+                method: 'GET'
+            }),
+        }),
+
+        deleteUser: build.mutation({
+            query: (data) => ({
+                url: `/api/film/data/`,
+                method: 'POST',
+                body: data
+            }),
+        }),
+
+        modifyUser: build.mutation({
+            query: (data) => ({
+                url: `/api/film/data/`,
+                method: 'POST',
+                body: data
+            }),
+        }),
+
+        //overrideExisting: false,
+    })
+})
+
+export const { useGetUserListQuery, useDeleteUserMutation, useModifyUserMutation } = allApi
+
