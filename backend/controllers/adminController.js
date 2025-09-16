@@ -11,7 +11,7 @@ const getUserList = asyncHandler( async ( req, res ) => {
             userReviews = await Review.find({ user: u._id }).lean()
             u.numReviews = userReviews.length
          }
-         
+         //console.log("Printing user object: ", users)
          res.status(201).json(users)
     }
     catch (error) {

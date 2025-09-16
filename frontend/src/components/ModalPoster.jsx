@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Image } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
-function ModalComponent({title, poster}) {
+function ModalPoster({title, poster}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(!show);
@@ -31,4 +31,4 @@ function ModalComponent({title, poster}) {
   );
 }
 
-export default ModalComponent;
+export default ModalPoster;

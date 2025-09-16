@@ -1,11 +1,11 @@
 import React from 'react';
 import { Table, Spinner, Modal } from 'react-bootstrap';
-import ModalComponent from '../components/ModalComponent.jsx'
+import ModalPoster from '../components/ModalPoster.jsx'
 import { useGetWatchListQuery } from '../slices/userApiSlice.js'
 
 const UserWatchlist = () => {
 
-  const { data:uwlist, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery()
+  const { data:result, isLoading: wlistLoading, refetch: refetchWlist , error: errWlist  } = useGetWatchListQuery()
 
   return (
     <>
@@ -22,16 +22,16 @@ const UserWatchlist = () => {
             </thead>
             <tbody>
                 
-                { wlistLoading ? <Spinner/> : uwlist && uwlist.length === 0 ? <h1>No films in your watchlist</h1> : 
+                { wlistLoading ? <Spinner/> : result.wlist && result.wlist.length === 0 ? <h1>No films in your watchlist</h1> : 
 
-                   uwlist.map( (f, idx) => (
+                   result.wlist.map( (f, idx) => (
                         <tr key={f.imdbId}>
                             <td>{idx + 1}</td>
                             <td>{f.title}</td>
                             <td>{f.year}</td>
                             <td>{f.watched ? "Yes" : "No"}</td>
                             <td>{f.rank ? f.rank : "Not ranked"}</td>
-                            <td><ModalComponent
+                            <td><ModalPoster
                                 title={f.title} 
                                 poster={f.poster} /></td>
                         </tr>
