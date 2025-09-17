@@ -1,7 +1,8 @@
 import { Table } from 'react-bootstrap';
 import { useGetUserListQuery } from '../../slices/adminApiSlice.js'
 import { Spinner } from 'react-bootstrap';
-import { use, useEffect } from 'react';
+import ModalUserMod from './ModalUserMod'
+import { useState, useEffect } from 'react';
 
 const UserListScreen = () => {
 
@@ -27,17 +28,17 @@ const UserListScreen = () => {
                 
                 { usrListLoading ? <Spinner/> : usrList && usrList.length === 0 ? <h1>No Users registered</h1> : 
 
-                   usrList.map( (f, idx) => (
-                        <tr key={f.imdbId}>
+                   usrList.map( (u, idx) => (
+                        <tr key={u.imdbId}>
                             <td>{idx + 1}</td>
-                            <td>{f.name}</td>
-                            <td>{f.surname}</td>
-                            <td>{f.email}</td>
-                            <td>{f.isAdmin ? "Yes" : "No"}</td>
-                            <td>{f.numReviews}</td>
-                            <td>{f.createdAt.substr(0, 19).replace("T", " ")}</td>
+                            <td>{u.name}</td>
+                            <td>{u.surname}</td>
+                            <td>{u.email}</td>
+                            <td>{u.isAdmin ? "Yes" : "No"}</td>
+                            <td>{u.numReviews}</td>
+                            <td>{u.createdAt.substr(0, 19).replace("T", " ")}</td>
                             <td></td>
-                            <td></td>
+                            <td><ModalUserMod user={u} /></td>
                         </tr>
                     ))
                 }
