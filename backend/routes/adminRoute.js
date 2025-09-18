@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getUserList } from "../controllers/adminController.js";
+import { getUserList, modifyUser } from "../controllers/adminController.js";
 
 import { checkLogin } from "../middlewares/userMiddleware.js";
 
@@ -8,6 +8,8 @@ import { checkLogin } from "../middlewares/userMiddleware.js";
 ///api/admin/userlist/
 const router = express.Router();
 router.route("/userlist").get(checkLogin, getUserList)
+
+router.route("/moduser").put(checkLogin, modifyUser)
 
 
 //router.route("/homepage/:title").get( getHomepageFilms )

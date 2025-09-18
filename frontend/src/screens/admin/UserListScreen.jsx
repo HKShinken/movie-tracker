@@ -38,7 +38,8 @@ const UserListScreen = () => {
                             <td>{u.numReviews}</td>
                             <td>{u.createdAt.substr(0, 19).replace("T", " ")}</td>
                             <td></td>
-                            <td><ModalUserMod user={u} /></td>
+                            <td><ModalUserMod user={u}
+                                              refetchUsrList={refetchUsrList} /></td>
                         </tr>
                     ))
                 }

@@ -21,15 +21,17 @@ const allApi = apiSlice.injectEndpoints({
 
         modifyUser: build.mutation({
             query: (data) => ({
-                url: `/api/film/data/`,
-                method: 'POST',
+                url: `/api/admin/moduser/`,
+                method: 'PUT',
                 body: data
             }),
         }),
 
+        
+
         //overrideExisting: false,
     })
 })
-
+//modifyUser
 export const { useGetUserListQuery, useDeleteUserMutation, useModifyUserMutation } = allApi
 

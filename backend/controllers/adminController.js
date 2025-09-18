@@ -22,4 +22,39 @@ const getUserList = asyncHandler( async ( req, res ) => {
 })
 
 
-export { getUserList }
+
+const modifyUser = asyncHandler( async (req,res) => {
+
+    const {_id, name, surname, email, isAdmin} = req.body
+
+    const userMod = await User.findById(_id).select({password:0})
+     if(userMod)
+     {
+        userMod.name = name;
+        userMod.surname = surname;
+        userMod.email = email;
+        userMod.isAdmin = isAdmin;
+        console.log("Stampo l'utente trovato: ", userMod )
+
+        try{
+             await userMod.save();
+             res.status(201).json({message:"User modified"})
+        }
+        catch(error)
+        {
+            res.status(500);
+            console.log(error.message)
+            throw new Error(error.message);
+        }
+     }
+     else
+     {
+        res.status(401);
+        throw new Error("User not found for modification");
+     }
+
+
+})
+
+
+export { getUserList, modifyUser }
