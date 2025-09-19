@@ -6,20 +6,23 @@ function Paginate({pages, current_page, keyword}) {
 
   return (
     <Pagination>
-      <Pagination.First />
-      <Pagination.Prev />
+      <LinkContainer
+                     key="first"
+                     to={ "/search/" + keyword + "/1"  } >
+            <Pagination.First />
+      </LinkContainer>
 
-      <Pagination.Item>{1}</Pagination.Item>
-      <Pagination.Ellipsis />
+      <LinkContainer
+                     key="first"
+                     to={ "/search/" + keyword + "/" + (parseInt(current_page) - 1)  } >
+            <Pagination.Prev />
+      </LinkContainer>
 
       { pages.map( (x) => ( //essentially lists all array element indexes 5 -> 0,1,2,3,4
 
                <LinkContainer
                      key={x + 1}
-                     to={ "/search/" + keyword + "/" + x /*!isAdmin ? 
-                                     keyword ? '/search/' + keyword + '/page/' + (x + 1)  : 
-                                               '/page/' + (x + 1) : 
-                                    '/admin/productlist/' + (x + 1)*/ } >
+                     to={ "/search/" + keyword + "/" + (x + 1)  } >
 
                       { /* this highllights the box referring to curent page */ }
                       <Pagination.Item active={ x + 1 === current_page }> { x + 1 } </Pagination.Item>
@@ -27,10 +30,20 @@ function Paginate({pages, current_page, keyword}) {
          ) )}
 
       <Pagination.Ellipsis />
-      <Pagination.Item>{pages.length + 1}</Pagination.Item>
 
-      <Pagination.Next />
-      <Pagination.Last />
+      <LinkContainer
+                     key="first"
+                     to={ "/search/" + keyword + "/" + (parseInt(current_page) + 1) }
+                     disable={parseInt(current_page) === pages.length}  >
+            <Pagination.Next />
+      </LinkContainer>
+
+      <LinkContainer
+                     key="first"
+                     to={ "/search/" + keyword + "/" + pages.length } 
+                     disable={parseInt(current_page) === pages.length} >
+            <Pagination.Last />
+      </LinkContainer>
     </Pagination>
   );
 }

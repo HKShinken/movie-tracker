@@ -13,6 +13,7 @@ const FilmPageScreen = () => {
 
   let { keyword, page } = useParams();
   keyword =  keyword ? keyword : "avengers";
+  const pageItems = 10
   page =  page ? page : "1";
 
   const { data:filmData, isLoading  } = useGetFilmsQuery({keyword, page})
@@ -36,9 +37,9 @@ const FilmPageScreen = () => {
         { isLoading || wlistLoading ? <> <h2>loading ... </h2><Spinner /> </> :
           !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" </h2> : <>
             <Row>
-                <>
-                    <Paginate pages={ [0,1,2,3] } 
-                        current_page={1}
+                <>  <strong>Total result: {filmData.totalResults} pages: {Math.ceil(filmData.totalResults/pageItems)}</strong>
+                    <Paginate pages={ [...Array(Math.ceil(filmData.totalResults/pageItems)).keys()] } 
+                        current_page={page}
                         keyword={keyword} />   
 
                     { [...filmData.Search].sort((a,b) => { return parseInt(b.Year.substring(0,4)) - parseInt(a.Year.substring(0,4)) } ) //sorted by year asc
@@ -52,9 +53,9 @@ const FilmPageScreen = () => {
                                                       </Col>
                                                   ) )}    
 
-                     <Paginate pages={ [0,1,2,3] } 
-                          current_page={1}
-                          keyword={keyword} />   
+                    <Paginate pages={ [...Array(Math.ceil(filmData.totalResults/pageItems)).keys()] } 
+                        current_page={page}
+                        keyword={keyword} /> 
                     </>
             </Row>
 
