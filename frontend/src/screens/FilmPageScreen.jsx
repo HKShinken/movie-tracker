@@ -3,6 +3,7 @@ import { useGetFilmsQuery } from '../slices/filmApiSlice.js'
 import { useGetWatchListQuery } from '../slices/userApiSlice.js'
 import { useDispatch } from 'react-redux';
 import FilmCard from '../components/FilmCard';
+import Paginate from '../components/Paginate';
 import { Button, Col, 
          Spinner, 
          Container, Row } from 'react-bootstrap';
@@ -10,10 +11,11 @@ import { useParams } from 'react-router-dom';
 
 const FilmPageScreen = () => {
 
-  let { keyword } = useParams();
+  let { keyword, page } = useParams();
   keyword =  keyword ? keyword : "avengers";
+  page =  page ? page : "1";
 
-  const { data:filmData, isLoading  } = useGetFilmsQuery({keyword})
+  const { data:filmData, isLoading  } = useGetFilmsQuery({keyword, page})
   const { data:userWatchList, isLoading: wlistLoading  } = useGetWatchListQuery({keyword})
 
   const dispatch = useDispatch()
@@ -34,6 +36,11 @@ const FilmPageScreen = () => {
         { isLoading || wlistLoading ? <> <h2>loading ... </h2><Spinner /> </> :
           !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" </h2> : <>
             <Row>
+                <>
+                    <Paginate pages={ [0,1,2,3] } 
+                        current_page={1}
+                        keyword={keyword} />   
+
                     { [...filmData.Search].sort((a,b) => { return parseInt(b.Year.substring(0,4)) - parseInt(a.Year.substring(0,4)) } ) //sorted by year asc
                     .map( (f) =>  (   
                                                       <Col key={f.imdbID} xs={12} md={4}>
@@ -43,7 +50,12 @@ const FilmPageScreen = () => {
                                                               review={ (userWatchList.reviews.find(r => r.imdbId === f.imdbID)) }
                                                            />
                                                       </Col>
-                                                  ) )}     
+                                                  ) )}    
+
+                     <Paginate pages={ [0,1,2,3] } 
+                          current_page={1}
+                          keyword={keyword} />   
+                    </>
             </Row>
 
           <Button onClick={logoutHandler}> LOGOUT </Button>

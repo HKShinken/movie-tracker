@@ -4,11 +4,14 @@ import asyncHandler from '../middlewares/asyncHandler.js'
 const getHomepageFilms = asyncHandler( async ( req, res ) => {
 
     try {
-          let key = req.params.keyword;
-          key = key ? key: "avengers";
+          let { keyword, page } = req.params;
+
+          keyword = keyword ? keyword: "avengers";
+          page = page ? page: "1";
 
           //api does not have an option to get n random result..
-          const response = await fetch(process.env.OMDB_URL + '&s=' + key + '&page=1');
+          const response = await fetch(process.env.OMDB_URL + '&s=' + keyword + '&page=' + page);
+          
           if (!response.ok) {
             res.status(401)
             throw new Error(`Response status: ${response.status}`);

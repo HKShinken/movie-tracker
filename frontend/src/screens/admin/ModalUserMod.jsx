@@ -50,8 +50,8 @@ function ModalUserMod({user, refetchUsrList}) {
     }
     else {
         
-        e.target.checked = !admin;
-        setAdmin(!admin)
+        e.target.checked = false;
+        setAdmin(false)
       }
   }
 

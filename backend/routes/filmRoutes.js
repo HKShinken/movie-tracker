@@ -8,7 +8,7 @@ import { checkLogin } from "../middlewares/userMiddleware.js";
 
 
 const router = express.Router();
-router.route("/filmpage/:keyword").get(checkLogin, getHomepageFilms)
+router.route("/filmpage/:keyword/:page").get(checkLogin, getHomepageFilms)
 router.route("/data/:imdbId").get(checkLogin, getFilmData)
 
 

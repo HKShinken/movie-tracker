@@ -6,7 +6,7 @@ const allApi = apiSlice.injectEndpoints({
 
         getFilms: build.query({
             query: (data) => ({
-                url: `/api/film/filmpage/` + data.keyword,
+                url: `/api/film/filmpage/` + data.keyword + "/" + data.page,
                 method: 'GET',
             }),
         }),

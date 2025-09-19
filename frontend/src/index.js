@@ -36,6 +36,7 @@ root.render(
           <Route path="" element={<PrivateRoute />}>
               <Route path="/filmpage" element={<FilmPageScreen />} />
               <Route path="/search/:keyword" element={<FilmPageScreen />} />
+              <Route path="/search/:keyword/:page" element={<FilmPageScreen />} />
               <Route path="/search/watchlist" element={<UserWatchlist />} />
 
               <Route path="/admin/userlist" element={<UserListScreen />} />
