@@ -1,47 +1,96 @@
 import { Pagination } from 'react-bootstrap';
+import { useState, useEffect} from 'react'
 import { LinkContainer } from "react-router-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
 //page must be an array of integers
 function Paginate({pages, current_page, keyword}) {
+  
+  //creates an array containig slices indexes
+  const slices = pages.map(i => (i === 0 ? i : i * 4));
+  //console.log("Stampo slices: ", slices)
+
+  //slices the page array
+  const pageSliced = slices.map(x => pages.slice(x, x + 4)); 
+  //console.log("Stampo l'array diviso: ", pageSliced)
+
+  const [sliceIndex, setSliceIndex] = useState(0); 
+  const [currPage, setCurrPage] = useState(parseInt(current_page));
+
+  const navigate = useNavigate();
+
+  //increments or decrements slice indexes by the input
+  const handleEllipsis = async(i) => {
+       let elIdx = 0;
+       
+       if(i < 0)
+          elIdx = pageSliced[sliceIndex + i].length - 1
+
+       //goes to first page of next slice of last page of prev slice
+       const page = pageSliced[sliceIndex + i][elIdx] + 1;
+       setSliceIndex(sliceIndex + i)
+       navigate("/search/" + keyword + "/" + page)
+  }
+
+  //gets the slice by the single page selected, eg.: p = 11, slice length=4 => slice_page = floor(11/4) = 2
+  const handlePage = async(p) => {
+            const nextSlice = Math.floor( (p - 1)/4)
+            setCurrPage( pageSliced[nextSlice][0] + 1 ) 
+            setSliceIndex( nextSlice ) //the current page "p" actually is index + 1
+  }
+
+  useEffect(() => {
+    setCurrPage(parseInt(current_page))
+  }, [current_page]) //slice index is necessary because i can change slice with same indexes and the previous slice
 
   return (
     <Pagination>
       <LinkContainer
                      key="first"
-                     to={ "/search/" + keyword + "/1"  } >
+                     to={ "/search/" + keyword + "/1"  } 
+                     disabled={currPage === 1} >
             <Pagination.First />
       </LinkContainer>
 
       <LinkContainer
-                     key="first"
-                     to={ "/search/" + keyword + "/" + (parseInt(current_page) - 1)  } >
+                     key="prev"
+                     to={ "/search/" + keyword + "/" + (currPage - 1)  }
+                     onClick={() => handlePage(currPage -1)}
+                     disabled={currPage === 1}>
             <Pagination.Prev />
       </LinkContainer>
 
-      { pages.map( (x) => ( //essentially lists all array element indexes 5 -> 0,1,2,3,4
+      <Pagination.Ellipsis 
+                          onClick={ () => handleEllipsis(-1) }
+                          disabled={sliceIndex === 0}/>
+
+      { pageSliced[sliceIndex].map( (x) => (
 
                <LinkContainer
                      key={x + 1}
                      to={ "/search/" + keyword + "/" + (x + 1)  } >
 
-                      { /* this highllights the box referring to curent page */ }
-                      <Pagination.Item active={ x + 1 === current_page }> { x + 1 } </Pagination.Item>
+                      { /* this highlights the box referring to curent page */ }
+                      <Pagination.Item active={ x + 1 === currPage }> { x + 1 } </Pagination.Item>
                </LinkContainer>
-         ) )}
+              ) )}
 
-      <Pagination.Ellipsis />
+      <Pagination.Ellipsis 
+                           onClick={ () => handleEllipsis(1) }
+                           disabled={sliceIndex === pageSliced.length - 1}/>
 
       <LinkContainer
-                     key="first"
-                     to={ "/search/" + keyword + "/" + (parseInt(current_page) + 1) }
-                     disable={parseInt(current_page) === pages.length}  >
+                     key="next"
+                     to={ "/search/" + keyword + "/" + (currPage + 1) }
+                     onClick={() => handlePage(currPage + 1)}
+                     disabled={currPage === pages.length} >
             <Pagination.Next />
       </LinkContainer>
 
       <LinkContainer
-                     key="first"
+                     key="last"
                      to={ "/search/" + keyword + "/" + pages.length } 
-                     disable={parseInt(current_page) === pages.length} >
+                     disabled={currPage === pages.length} >
             <Pagination.Last />
       </LinkContainer>
     </Pagination>

@@ -45,9 +45,8 @@ const FilmCard = ({fcard, inList, review}) => {
   }
 
   return (
-    <>{review?.rate && console.log("Printing review prop in FilmCard: ", review, fcard.imdbID)}
+    <>
       <Card key={fcard.imdbID} className = "mb-3" style={{ width: '18rem' }}>
-
         <Card.Img variant="top" 
                   src={fcard.Poster}
                   onError={(e) => {
