@@ -23,12 +23,10 @@ function Paginate({pages, current_page, keyword}) {
 
   //increments or decrements slice indexes by the input
   const handleEllipsis = async(i) => {
-       let elIdx = 0;
-       
-       if(i < 0)
-          elIdx = pageSliced[sliceIndex + i].length - 1
 
-       //goes to first page of next slice of last page of prev slice
+        const elIdx = ( i < 0 ? pageSliced[sliceIndex + i].length - 1 : 0)
+
+       //if i > 0 goes to first page of next slice otherwise goes to the last page of prev slice
        const page = pageSliced[sliceIndex + i][elIdx] + 1;
        setSliceIndex(sliceIndex + i)
        navigate("/search/" + keyword + "/" + page)
@@ -43,7 +41,7 @@ function Paginate({pages, current_page, keyword}) {
 
   useEffect(() => {
     setCurrPage(parseInt(current_page))
-  }, [current_page]) //slice index is necessary because i can change slice with same indexes and the previous slice
+  }, [current_page]) //slice index is necessary to avpid rendering old local states
 
   return (
     <Pagination>
