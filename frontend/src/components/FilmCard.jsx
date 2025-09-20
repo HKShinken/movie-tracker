@@ -66,7 +66,7 @@ const FilmCard = ({fcard, inList, review}) => {
                                                 originalRating={review?.rate}
                                                 /></ListGroup.Item>
                 <ListGroup.Item>
-                    <label for={"addButton" + fcard.imdbID} style={{cursor:"pointer"}}>{ added ? "In your watchlist" : "Add to your watchlist" }</label>
+                    <label htmlFor={"addButton" + fcard.imdbID} style={{cursor:"pointer"}}>{ added ? "In your watchlist" : "Add to your watchlist" }</label>
                     <Button variant="link" 
                             size="lg" 
                             className="p-1 mb-2"
