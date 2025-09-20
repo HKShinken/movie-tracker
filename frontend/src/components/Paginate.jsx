@@ -10,11 +10,9 @@ function Paginate({pages, current_page, keyword}) {
   // eg: 17 pages will have 5 group of 4 indexes
   const slices = pages.map(i => (i === 0 ? i : i * 4))
                       .slice(0, Math.ceil(pages.length/4));
-  //console.log("Stampo slices: ", slices)
 
   //slices the page array e.g.:  in groups of 4 indexes
   const pageSliced = slices.map(x => pages.slice(x, x + 4)); 
-  console.log("Stampo l'array diviso: ", pageSliced)
 
   const [sliceIndex, setSliceIndex] = useState(0); 
   const [currPage, setCurrPage] = useState(parseInt(current_page ? current_page : "1" ));

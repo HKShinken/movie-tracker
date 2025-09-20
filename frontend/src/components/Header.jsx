@@ -18,7 +18,7 @@ function Header() {
 
   const logoutHandler = async() => {
          dispatch(logout())
-         navigate("/")
+         navigate("/login")
          toast.success("Logged out")
     }
 

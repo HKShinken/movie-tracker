@@ -19,12 +19,12 @@ const checkLogin = asyncHandler ( async (req, res, next) => {
 
         } catch(err) {
             console.log(err);
-            res.status(401);
+            res.status(498 );
             throw new Error("Not authorized, token failure");
         }
 
    } else {
-         res.status(401);
+         res.status(498);
          throw new Error("Not authorized, no token");
    }
 })

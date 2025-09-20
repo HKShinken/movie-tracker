@@ -4,10 +4,12 @@ import { useGetWatchListQuery } from '../slices/userApiSlice.js'
 import { useDispatch } from 'react-redux';
 import FilmCard from '../components/FilmCard';
 import Paginate from '../components/Paginate';
+import {useEffect} from 'react'
 import { Button, Col, 
          Spinner, 
          Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const FilmPageScreen = () => {
 
@@ -16,26 +18,28 @@ const FilmPageScreen = () => {
   const pageItems = 10
   page =  page ? page : "1";
 
-  const { data:filmData, isLoading  } = useGetFilmsQuery({keyword, page})
+  const { data:filmData, isLoading, error, isError  } = useGetFilmsQuery({keyword, page})
   const { data:userWatchList, isLoading: wlistLoading  } = useGetWatchListQuery({keyword})
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const logoutHandler = async() => {
        dispatch(logout())
-       console.log("printing film data: ", userWatchList)
+       toast.error("Token expired, please login again")
+       navigate("/login", { replace: true } )
   }
-
-  //const userInfo = useSelector( (state) => state.auth.userInfo )
-  //console.log("userInfo from store: ", userInfo)
-  //useEffect( () => { console.log("userWatchList from store: ", userWatchList) } )
+  
+  useEffect( () => { 
+      if (isError && error.status === 498) { logoutHandler() }
+   }, [isError] )
 
   return (
 
       <Container fluid> 
        
         { isLoading || wlistLoading ? <> <h2>loading ... </h2><Spinner /> </> :
-          !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" </h2> : <>
+          !filmData || filmData.Response === "False" ? <h2> No Results for "{keyword}" {console.log("Errore ", error.status)} </h2> : <>
             <Row>
                 <>  <strong>Total result: {filmData.totalResults} pages: {Math.ceil(filmData.totalResults/pageItems)}</strong>
                     <Paginate pages={ [...Array(Math.ceil(filmData.totalResults/pageItems)).keys()] } 
