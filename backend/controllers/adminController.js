@@ -5,14 +5,17 @@ import asyncHandler from '../middlewares/asyncHandler.js'
 const getUserList = asyncHandler( async ( req, res ) => {
     let userReviews = null
     try 
-    {
-         const users = await User.find({}).select({password:0}).lean() //exclude password field
-         for ( const u of users ){
-            userReviews = await Review.find({ user: u._id }).lean()
-            u.numReviews = userReviews.length
-         }
-         //console.log("Printing user object: ", users)
-         res.status(201).json(users)
+    {    
+        const page = req.params.page; 
+        const pageItems = process.env.PAGE_TABLE_ITEMS;
+
+         //.skip(offset).limit(limit);
+         const offset = (page - 1) * pageItems
+         let users = await User.find({}).skip(offset).limit(pageItems).select({password:0}).lean() //exclude password field
+         const totalNumber = await User.estimatedDocumentCount().lean();
+         
+         console.log("Printing user object: ", users)
+         res.status(201).json({users, totalNumber, pageItems})
     }
     catch (error) {
         res.status(500)

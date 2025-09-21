@@ -19,7 +19,7 @@ const FilmPageScreen = () => {
   page =  page ? page : "1";
 
   const { data:filmData, isLoading, error, isError  } = useGetFilmsQuery({keyword, page})
-  const { data:userWatchList, isLoading: wlistLoading  } = useGetWatchListQuery({keyword})
+  const { data:userWatchList, isLoading: wlistLoading  } = useGetWatchListQuery()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -44,7 +44,7 @@ const FilmPageScreen = () => {
                 <>  <strong>Total result: {filmData.totalResults} pages: {Math.ceil(filmData.totalResults/pageItems)}</strong>
                     <Paginate pages={ [...Array(Math.ceil(filmData.totalResults/pageItems)).keys()] } 
                         current_page={page}
-                        keyword={keyword} />   
+                        path={`/search/${keyword}`} />   
 
                     { [...filmData.Search].sort((a,b) => { return parseInt(b.Year.substring(0,4)) - parseInt(a.Year.substring(0,4)) } ) //sorted by year asc
                     .map( (f) =>  (   
@@ -59,7 +59,7 @@ const FilmPageScreen = () => {
 
                     <Paginate pages={ [...Array(Math.ceil(filmData.totalResults/pageItems)).keys()] } 
                         current_page={page}
-                        keyword={keyword} /> 
+                        path={`/search/${keyword}`} /> 
                     </>
             </Row>
 

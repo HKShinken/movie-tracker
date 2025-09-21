@@ -5,6 +5,7 @@ import {
          loginUser,
          addFilmToWatchlist,
          getUserWatchList,
+         getUserWatchListPaged,
          delFilmFromWatchlist,
          addReviewFilm
          
@@ -23,6 +24,8 @@ router.route("/login").post( loginUser );
 router.route("/wlist").post( checkLogin, addFilmToWatchlist )
                       .get( checkLogin, getUserWatchList )
                       .delete( checkLogin, delFilmFromWatchlist );
+
+router.route("/wlist/:page").get( checkLogin, getUserWatchListPaged )
 
 router.route("/review").post( checkLogin, addReviewFilm )
 

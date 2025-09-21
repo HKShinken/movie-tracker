@@ -40,10 +40,10 @@ function Header() {
               <Nav.Link href="/"><strong>Home</strong></Nav.Link>
 
            { userInfo && <NavDropdown title={userInfo.isAdmin ? "Admin: " + userInfo.name: userInfo.name} id="basic-nav-dropdown" >
-                <NavDropdown.Item><Link to="/search/watchlist">Your Watchlist</Link></NavDropdown.Item>
-                <NavDropdown.Item><Link to="/search/watchlist">Boooh</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to="/user/watchlist/1">Your Watchlist</Link></NavDropdown.Item>
+                <NavDropdown.Item><Link to="#">Boooh</Link></NavDropdown.Item>
                 
-                {userInfo.isAdmin ? <NavDropdown.Item><Link to="/admin/userlist">User List</Link></NavDropdown.Item> : <></> }
+                {userInfo.isAdmin ? <NavDropdown.Item><Link to="/admin/userlist/1">User List</Link></NavDropdown.Item> : <></> }
                 
                 <NavDropdown.Divider />
 

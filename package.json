@@ -10,7 +10,7 @@
   "scripts": {
     "backend": "nodemon backend/server.js",
     "frontend": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run backend\" \"npm start --prefix frontend\""
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "devDependencies": {
     "concurrently": "^9.2.0",

@@ -48,6 +48,14 @@ const allApi = apiSlice.injectEndpoints({
             }),
         }),
 
+        getWatchListPaged: build.query({
+            
+            query: (data) => ({
+                url: `/api/users/wlist/${data.page}`,
+                method: 'GET',
+            }),
+        }),
+
         addFilmReview: build.mutation({
             
             query: ( data ) => ({
@@ -67,6 +75,7 @@ export const { useLoginMutation,
                useAddFilmToWatchlistMutation, 
                useDelFilmFromWatchlistMutation, 
                useGetWatchListQuery,
+               useGetWatchListPagedQuery,
                useAddFilmReviewMutation } = allApi
 
 /* 

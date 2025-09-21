@@ -123,6 +123,44 @@ const getUserWatchList = asyncHandler( async(req, res) => {
    const wlist = await Watchlist.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
 
     // get also reviews for the user
+   const reviews = await Review.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
+
+    // gets average rating for each film reviewd
+  const avgRating = await Review.aggregate([
+        //{ $match: { user: userId } },
+        {
+          $group: {
+            _id: "$imdbId",
+            value: { $avg: { $toInt: "$rate" } },   
+            numReviews: {  $sum: 1 }
+          }
+        }
+    ]); // lean() not needed for aggregations
+
+   // console.log("printing wlist: ", wlist)
+   if(!wlist) {
+       res.status(400)
+       throw new Error("Error retrieving watchlist")
+   }
+
+   res.status(201).json({ wlist, reviews, avgRating })
+})
+
+const getUserWatchListPaged = asyncHandler( async(req, res) => {
+
+   const userId = req.user._id;
+   const page = req.params.page;
+   const pageItems = process.env.PAGE_TABLE_ITEMS;
+
+   //distinct method returns array of distinct values without the keys, it can be used on only one field
+   //const wlist = await Watchlist.distinct("imdbId", { user: userId }).lean() //find({ user: userId}).select({ imdbId: 1, _id: 0 })//excludes user and _id fields; 
+   const wlist = await Watchlist.find({ user: userId })
+                                .skip((page - 1) * pageItems)
+                                .limit(pageItems)
+                                .select({ _id: 0, user: 0, __v: 0 }).lean() //excludes user and _id fields;
+   const wlistLength = await Watchlist.countDocuments({ user: userId }).lean();
+
+    // get also reviews for the user
    const reviews = await Review.find({ user: userId }).select({ _id: 0, user: 0, __v: 0 }) //excludes user and _id fields;
 
     // gets average rating for each film reviewd
@@ -137,14 +175,13 @@ const getUserWatchList = asyncHandler( async(req, res) => {
         }
     ]); // lean() not needed for aggregations
 
-    //console.log("printing avgRating: ", avgRating)
+    console.log("printing wlist length: ", wlistLength)
    if(!wlist) {
        res.status(400)
        throw new Error("Error retrieving watchlist")
    }
 
-   res.status(201).json({ wlist, reviews, avgRating })
-
+   res.status(201).json({ wlist, reviews, avgRating, wlistLength, pageItems })
 })
 
 const addReviewFilm = asyncHandler(async (req, res) => {
@@ -204,6 +241,7 @@ export { registerUser,
         loginUser, 
         addFilmToWatchlist, 
         getUserWatchList,
+        getUserWatchListPaged,
         delFilmFromWatchlist,
         addReviewFilm,
         getFilmReviews};

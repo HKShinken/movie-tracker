@@ -7,7 +7,7 @@ import { checkLogin } from "../middlewares/userMiddleware.js";
 
 ///api/admin/userlist/
 const router = express.Router();
-router.route("/userlist").get(checkLogin, getUserList)
+router.route("/userlist/:page").get(checkLogin, getUserList)
 
 router.route("/moduser").put(checkLogin, modifyUser)
 

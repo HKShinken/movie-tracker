@@ -5,8 +5,8 @@ const allApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
 
         getUserList: build.query({
-            query: () => ({
-                url: `/api/admin/userlist/`,
+            query: (data) => ({
+                url: `/api/admin/userlist/${data.page}`,
                 method: 'GET'
             }),
         }),

@@ -37,17 +37,15 @@ root.render(
               <Route path="/filmpage" element={<FilmPageScreen />} />
               <Route path="/search/:keyword" element={<FilmPageScreen />} />
               <Route path="/search/:keyword/:page" element={<FilmPageScreen />} />
-              <Route path="/search/watchlist" element={<UserWatchlist />} />
+              <Route path="/user/watchlist/:page" element={<UserWatchlist />} />
 
-              <Route path="/admin/userlist" element={<UserListScreen />} />
           </Route>
 
-        </Route>
+          <Route path="" element={<AdminRoute />}>
+               <Route path="/admin/userlist/:page" element={<UserListScreen />} />
+          </Route> 
 
-         
-       <Route path="" element={<AdminRoute />}>
-          <Route path="adsads/admin/userlist" element={<UserListScreen />} />
-       </Route> 
+        </Route>
 
       </Routes>
 
