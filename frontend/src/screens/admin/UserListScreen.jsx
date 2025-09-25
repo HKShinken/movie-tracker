@@ -1,8 +1,10 @@
 import { Table, Spinner } from 'react-bootstrap';
-import { useGetUserListQueryPaged } from '../../slices/adminApiSlice.js'
+import { useGetUserListQuery } from '../../slices/adminApiSlice.js'
 import { useParams } from 'react-router-dom';
 import ModalUserMod from './ModalUserMod'
+import ModalUserDel from './ModalUserDel'
 import Paginate from '../../components/Paginate.jsx'
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 const UserListScreen = () => {
@@ -11,14 +13,13 @@ const UserListScreen = () => {
 
   page = page ? page : 1
 
-  const { data:usrList, isLoading: usrListLoading, refetch: refetchUsrList } = useGetUserListQueryPaged({page})
-
-  ///admin/userlist/:page
+  const { data:usrList, isLoading: usrListLoading, refetch: refetchUsrList } = useGetUserListQuery({page})
+  const userInfo = useSelector((state) => state.auth.userInfo)
 
   return (
     <>
     { usrListLoading ? <Spinner /> : <>
-    
+       
       <Paginate pages={ [...Array(Math.ceil(usrList.totalNumber/usrList.pageItems)).keys()] } 
           current_page={page}
           path={`/admin/userlist`} /> 
@@ -50,9 +51,11 @@ const UserListScreen = () => {
                             <td>{u.isAdmin ? "Yes" : "No"}</td>
                             <td>{u.numReviews}</td>
                             <td>{u.createdAt.substr(0, 19).replace("T", " ")}</td>
-                            <td></td>
-                            <td><ModalUserMod user={u}
-                                              refetchUsrList={refetchUsrList} /></td>
+                            <td>{userInfo?._id === u._id && <ModalUserDel user={u} 
+                                              refetchUsrList={refetchUsrList} />} </td> 
+                            
+                            <td><ModalUserMod user = {u}
+                                              refetchUsrList = {refetchUsrList} /></td>
                         </tr>
                     ))
                 }
